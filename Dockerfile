@@ -1,6 +1,6 @@
 FROM frolvlad/alpine-oraclejdk8:cleaned
 
-ENV WILDFLY_VERSION=10.0.0.Final
+ENV WILDFLY_VERSION=10.1.0.Final
 
 RUN APPS_BASE=/apps && \
   apk add --no-cache --virtual build-dependencies wget ca-certificates && \
