@@ -1,0 +1,24 @@
+#!/bin/sh
+
+CONFIG_DIR=/etc/wildfly/config.d
+ME="[wildfly/config.d]"
+CLI=/apps/wildfly/bin/jboss-cli.sh
+CLI_SCRIPT=$(mktemp)
+
+echo "embed-server" > $CLI_SCRIPT
+
+count=0
+for file in $(ls "$CONFIG_DIR"); do
+  snippet="${CONFIG_DIR}/${file}"
+  if [ -f "$snippet" ]; then
+    echo "echo $ME $file" >> $CLI_SCRIPT  
+    echo "run-batch --file=$snippet" >> $CLI_SCRIPT
+    count=$(expr $count + 1)
+  fi
+done
+
+if [ $count -ne 0 ]; then
+  $CLI --file="$CLI_SCRIPT"
+fi
+
+rm $CLI_SCRIPT
