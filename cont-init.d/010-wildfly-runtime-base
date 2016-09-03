@@ -1,0 +1,11 @@
+#!/bin/sh
+
+INSTALLED_BASE_DIR=/apps/wildfly/standalone.OEM
+RUNTIME_BASE_DIR=/var/run/wildfly
+
+if [ -d "$RUNTIME_BASE_DIR" ]; then
+  exit
+fi
+
+mkdir "$RUNTIME_BASE_DIR"
+tar -C "$INSTALLED_BASE_DIR" -cf - . | tar -C "$RUNTIME_BASE_DIR" -xf -
