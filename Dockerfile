@@ -2,14 +2,17 @@ FROM frolvlad/alpine-oraclejdk8:cleaned
 
 ARG CONFIG_DIR=/etc/wildfly/config.d/ 
 ARG WILDFLY_VERSION=10.1.0.Final
-ARG S6_VERSION=v1.18.1.5
+# ARG S6_REPO=https://github.com/just-containers/s6-overlay/releases/download/
+ARG S6_REPO=https://github.com/soulwing/s6-overlay/releases/download/
+# ARG S6_VERSION=v1.18.1.5
+ARG S6_VERSION=v1.18.1.5-soulwing
 ARG APPS_BASE=/apps
 ARG WILDFLY_RUNTIME_BASE_DIR=/var/run/wildfly
 
 RUN \
   apk add --no-cache --virtual build-dependencies wget ca-certificates && \
   echo "fetching s6-overlay" && \
-  wget -qO /tmp/s6-overlay.tar.gz https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-amd64.tar.gz && \
+  wget -qO /tmp/s6-overlay.tar.gz ${S6_REPO}/${S6_VERSION}/s6-overlay-amd64.tar.gz && \
   echo "fetching wildfly" && \
   wget -qO /tmp/wildfly.zip http://search.maven.org/remotecontent?filepath=org/wildfly/wildfly-dist/${WILDFLY_VERSION}/wildfly-dist-${WILDFLY_VERSION}.zip && \
   tar -zxf /tmp/s6-overlay.tar.gz -C / && \
