@@ -15,7 +15,15 @@ if [ ! -d "${CONFIG_DIR}" ]; then
   exit 1
 fi
 
-echo "applying configuration in ${CONFIG_DIR}"
+CONFIG_BASE=$(dirname $CONFIG_DIR)
+for file in $(ls $CONFIG_BASE); do
+  if [ -f $file ]; then
+    echo "$ME installing file ${CONFIG_BASE}/${file}"
+    cp ${CONFIG_BASE}/${file} ${WILDFLY_RUNTIME_BASE_DIR}/configuration/
+  fi
+done
+
+echo "$ME applying configuration in ${CONFIG_DIR}"
 
 CLI_SCRIPT=$(mktemp)
 echo "embed-server" > $CLI_SCRIPT
