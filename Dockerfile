@@ -7,7 +7,8 @@ ARG S6_REPO=https://github.com/soulwing/s6-overlay/releases/download/
 # ARG S6_VERSION=v1.18.1.5
 ARG S6_VERSION=v1.18.1.5-soulwing
 ARG APPS_BASE=/apps
-ARG WILDFLY_RUNTIME_BASE_DIR=/var/run/wildfly
+ENV WILDFLY_RUNTIME_BASE_DIR=/var/run/wildfly
+ENV WILDFLY_HOME=${APPS_BASE}/wildfly
 
 RUN \
   apk add --no-cache --virtual build-dependencies wget ca-certificates && \
@@ -16,15 +17,15 @@ RUN \
   echo "fetching wildfly" && \
   wget -qO /tmp/wildfly.zip http://search.maven.org/remotecontent?filepath=org/wildfly/wildfly-dist/${WILDFLY_VERSION}/wildfly-dist-${WILDFLY_VERSION}.zip && \
   tar -zxf /tmp/s6-overlay.tar.gz -C / && \
-  mkdir $APPS_BASE && \
-  unzip -qd /apps /tmp/wildfly.zip && \
-  ln -s $APPS_BASE/wildfly-${WILDFLY_VERSION} $APPS_BASE/wildfly && \
+  mkdir ${APPS_BASE} && \
+  unzip -qd ${APPS_BASE} /tmp/wildfly.zip && \
+  ln -s ${APPS_BASE}/wildfly-${WILDFLY_VERSION} ${WILDFLY_HOME} && \
   rm /tmp/s6-overlay.tar.gz && \
   rm /tmp/wildfly.zip
 
 RUN \
-  mv $APPS_BASE/wildfly/standalone $APPS_BASE/wildfly/standalone.OEM && \
-  ln -s $WILDFLY_RUNTIME_BASE_DIR $APPS_BASE/wildfly/standalone && \
+  mv ${WILDFLY_HOME}/standalone ${WILDFLY_HOME}/standalone.OEM && \
+  ln -s ${WILDFLY_RUNTIME_BASE_DIR} ${WILDFLY_HOME}/standalone && \
   mkdir -p $CONFIG_DIR
 
 COPY cont-init.d/ /etc/cont-init.d/
