@@ -81,8 +81,7 @@ configuration is applied in the right order.
 A snippet can be almost any CLI command (or sequence of commands). For example,
 a snippet that creates a JDBC data source might be written as follows.
 
-```121-create-datasource:```
-
+`121-create-datasource:`
 ```
 data-source add --name=exampleDS \
   --jndi-name=java:/jdbc/datasources/exampleDS \
@@ -95,8 +94,7 @@ The previous data source command will need the `mysql.jar` JDBC driver to be
 deployed before it can execute successfully. You can do this using a 
 lower-numbered snippet that uses the `deploy` command.
 
-```120-install-jdbc-driver:```
-
+`120-install-jdbc-driver:`
 ```
 deploy --name=mysql.jar /apps/artifacts/mysql-connector-java-5.1.33.jar
 ```
