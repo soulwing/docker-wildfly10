@@ -47,6 +47,33 @@ that contains the Wildfly directories `configuration`, `data`, `deployments`,
 `log`, etc.
 
 
+### `WILDFLY_HA`
+
+When set to `true`, Wildfly is run using the `standalone-ha.xml` configuration
+as the base which is subsequently configured.
+
+
+### `WILDFLY_BIND_INTERFACE`
+
+Identifies the container interface to which Wildfly's public, private, and management
+interfaces will be bound. When running in a container, Wildfly's default behavior of 
+binding the private and management interfaces to localhost isn't very useful, so the
+`run-wildfly` script binds all interfaces to a common interface.
+
+The default value is `eth0` (the container's virtual ethernet interface) which is 
+usually what you want if you're using the _bridge_ network mode. If your Docker network
+set up is more elaborate, you may want to specify a different interface.  
+
+You can also  set to `any` to allow Wildfly to bind using address 0.0.0.0. *Note that
+this is not supported when running Wildfly in high-availability mode (`WILDFLY_HA`) 
+because of a limitation of the JGroups component used by Wildfly to support cluster node
+discovery and communication.
+
+If you want even more control over how network interfaces are bound by wildfly, 
+replace `${WILDFLY_HOME}/bin/run-wildfly` or install your own script and run it as the
+CMD in an image that extends this image.
+
+
 ## Configuring Wildfly at Startup
 
 You can configure Wildfly when the image starts up in a few different ways.
