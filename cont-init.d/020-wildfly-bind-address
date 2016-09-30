@@ -1,0 +1,14 @@
+#!/usr/bin/with-contenv /bin/sh
+
+if [ "$WILDFLY_BIND_INTERFACE" != "any" ]; then
+  addr=$(ifconfig ${WILDFLY_BIND_INTERFACE} \
+            | grep "inet addr:" \
+            | sed -e 's/  */\t/g' \
+            | cut -f3 | cut -f2 -d:)
+else
+  addr=0.0.0.0
+fi
+
+echo $addr > $WILDFLY_BIND_ADDRESS
+echo "bind address is $(cat ${WILDFLY_BIND_ADDRESS})"
+
