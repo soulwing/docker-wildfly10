@@ -13,7 +13,7 @@ fi
 if [ "$WILDFLY_HA" == "true" -o "$WILDFLY_HA" == "yes" ]; then
   wildfly_config=${WILDFLY_RUNTIME_BASE_DIR}/configuration
   cp ${wildfly_config}/standalone-ha.xml ${wildfly_config}/standalone.xml
-  chown ${WILDFLY_USER}:${WILDFLY_USER} ${wildfly_config_dir}/standalone.xml
+  chown ${WILDFLY_USER}:${WILDFLY_USER} ${wildfly_config}/standalone.xml
 fi
 
 if [ ! -d "${CONFIG_DIR}" ]; then
