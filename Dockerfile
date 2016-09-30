@@ -27,7 +27,8 @@ RUN \
   ln -s ${APPS_BASE}/wildfly-${WILDFLY_VERSION} ${WILDFLY_HOME} && \
   rm /tmp/s6-overlay.tar.gz && \
   rm /tmp/wildfly.zip && \
-  adduser -H -h "${WILDFLY_HOME}" -g "Wildfly User" -s /bin/sh -D wildfly
+  adduser -H -h "${WILDFLY_HOME}" -g "Wildfly User" \
+      -s /bin/sh -D ${WILDFLY_USER}
 
 COPY run-wildfly.sh ${WILDFLY_HOME}/bin/run-wildfly
 COPY run-jboss-cli.sh ${WILDFLY_HOME}/bin/run-jboss-cli
