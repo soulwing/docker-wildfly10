@@ -10,6 +10,12 @@ if [ -f "$CONFIG_LOCK" ]; then
   exit
 fi
 
+if [ "$WILDFLY_HA" == "true" -o "$WILDFLY_HA" == "yes" ]; then
+  wildfly_config=${WILDFLY_RUNTIME_BASE_DIR}/configuration
+  cp ${wildfly_config}/standalone-ha.xml ${wildfly_config}/standalone.xml
+  chown ${WILDFLY_USER}:${WILDFLY_USER} ${wildfly_config_dir}/standalone.xml
+fi
+
 if [ ! -d "${CONFIG_DIR}" ]; then
   echo "${CONFIG_DIR}: not found" >&2
   exit 1
@@ -38,8 +44,9 @@ for file in $(ls "$CONFIG_DIR"); do
   fi
 done
 
+chown $WILDFLY_USER $CLI_SCRIPT
 if [ $count -ne 0 ]; then
-  $CLI --file="$CLI_SCRIPT"
+  s6-setuidgid $WILDFLY_USER $CLI --file="$CLI_SCRIPT"
 fi
 
 rm $CLI_SCRIPT
