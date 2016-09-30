@@ -7,8 +7,8 @@ ARG S6_VERSION=v1.18.1.5-soulwing
 ARG S6_REPO=https://github.com/soulwing/s6-overlay/releases/download/
 ARG S6_URL=${S6_REPO}/${S6_VERSION}/s6-overlay-amd64.tar.gz
 ARG APPS_BASE=/apps
-
-ENV WILDFLY_HOME=${APPS_BASE}/wildfly \
+ENV WILDFLY_USER=wildfly \
+    WILDFLY_HOME=${APPS_BASE}/wildfly \
     WILDFLY_RUNTIME_BASE_DIR=/var/run/wildfly \
     WILDFLY_BIND_INTERFACE=eth0 \
     WILDFLY_HA=false
@@ -26,7 +26,8 @@ RUN \
   unzip -qd ${APPS_BASE} /tmp/wildfly.zip && \
   ln -s ${APPS_BASE}/wildfly-${WILDFLY_VERSION} ${WILDFLY_HOME} && \
   rm /tmp/s6-overlay.tar.gz && \
-  rm /tmp/wildfly.zip
+  rm /tmp/wildfly.zip && \
+  adduser -H -h "${WILDFLY_HOME}" -g "Wildfly User" -s /bin/sh -D wildfly
 
 COPY run-wildfly.sh ${WILDFLY_HOME}/bin/run-wildfly
 COPY run-jboss-cli.sh ${WILDFLY_HOME}/bin/run-jboss-cli

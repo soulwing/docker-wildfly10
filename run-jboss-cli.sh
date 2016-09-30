@@ -5,5 +5,5 @@ if [ "$ctrl_address" = "0.0.0.0" ]; then
   ctrl_address=127.0.0.1
 fi
 
-exec ${WILDFLY_HOME}/bin/jboss-cli.sh \
+exec s6-setuidgid ${WILDFLY_USER} ${WILDFLY_HOME}/bin/jboss-cli.sh \
      --connect --controller=${ctrl_address}:9990 "$@"

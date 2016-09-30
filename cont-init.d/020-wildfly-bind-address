@@ -9,6 +9,7 @@ else
   addr=0.0.0.0
 fi
 
-echo $addr > $WILDFLY_BIND_ADDRESS
+echo $addr > ${WILDFLY_BIND_ADDRESS}
+chown ${WILDFLY_USER}:${WILDFLY_USER} ${WILDFLY_BIND_ADDRESS}
 echo "bind address is $(cat ${WILDFLY_BIND_ADDRESS})"
 

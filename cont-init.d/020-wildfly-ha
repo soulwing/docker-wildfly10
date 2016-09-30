@@ -3,4 +3,5 @@
 if [ "$WILDFLY_HA" == "true" -o "$WILDFLY_HA" == "yes" ]; then
   config_dir=${WILDFLY_RUNTIME_BASE_DIR}/configuration
   cp ${config_dir}/standalone-ha.xml ${config_dir}/standalone.xml
+  chown ${WILDFLY_USER}:${WILDFLY_USER} ${config_dir}/standalone.xml
 fi

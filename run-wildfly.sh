@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv /bin/sh
 
 bind_address=$(cat ${WILDFLY_BIND_ADDRESS})
-exec /apps/wildfly/bin/standalone.sh \
+exec s6-setuidgid ${WILDFLY_USER} ${WILDFLY_HOME}/bin/standalone.sh \
      -b $bind_address \
      -bprivate $bind_address \
      -bmanagement $bind_address \

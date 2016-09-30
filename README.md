@@ -15,6 +15,19 @@ docker build -t soulwing/wildfly10 .
 This image sets two environment variables which may be helpful as you
 create your downstream images.
 
+### `WILDFLY_USER`
+
+This identifies the user and group name that will be used to run Wildfly
+in the container. Because the container uses _s6-overlay_ for process 
+supervision, you cannot run the entire container as a non-root user. However,
+the Wildfly process itself (as well as the CLI process described in
+[Running the JBoss CLI](#running-the-jboss-cli)) run as the user specified
+by this environment variable.
+
+Note that you **cannot change the user without rebuilding the container
+image**. The user and group named by `WILDFLY_USER` are created as part of
+the image building process.
+
 ### `WILDFLY_HOME` 
 
 This is the location where Wildfly is installed in the container filesystem. 
@@ -158,3 +171,20 @@ using the CLI's `deploy` command. The recommended practice is one deployment
 per snippet. This allows you to easily manage the order of deployment using 
 the lexical order in which snippets are applied, and allows complex 
 deployment scenarios to be assembled using Docker layers.
+
+## Running the JBoss CLI
+
+The image provides an easy way to run the JBoss CLI (`jboss-cli.sh`) inside
+of your container. This is especially handy if you're binding the Wildfly
+socket listeners to your container's ethernet interface, needed for 
+Wildfly high-availability -- the provided script takes care of using the 
+correct address for Wildfly's management controller.
+
+Get the Docker ID of your running container using `docker ps`, then run the
+following command.
+
+```
+docker exec -ti {container-id} cli
+```
+
+You'll be dropped into the CLI prompt for the running Wildfly instance.
