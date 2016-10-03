@@ -6,12 +6,12 @@ ME="[wildfly/config.d]"
 CLI=/apps/wildfly/bin/jboss-cli.sh
 
 if [ -f "$CONFIG_LOCK" ]; then
-  echo "configuration has already been applied"
+  echo "$ME configuration has already been applied"
   exit
 fi
 
 if [ "$WILDFLY_HA" == "true" -o "$WILDFLY_HA" == "yes" ]; then
-  echo "HA configuration enabled"
+  echo "$ME HA configuration enabled"
   wildfly_config=${WILDFLY_RUNTIME_BASE_DIR}/configuration
   cp ${wildfly_config}/standalone-ha.xml ${wildfly_config}/standalone.xml
   chown ${WILDFLY_USER}:${WILDFLY_USER} ${wildfly_config}/standalone.xml
