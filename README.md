@@ -77,10 +77,9 @@ The default value is `eth0` (the container's virtual ethernet interface) which i
 usually what you want if you're using the _bridge_ network mode. If your Docker network
 set up is more elaborate, you may want to specify a different interface.  
 
-You can also  set to `any` to allow Wildfly to bind using address 0.0.0.0. *Note that
-this is not supported when running Wildfly in high-availability mode (`WILDFLY_HA`) 
-because of a limitation of the JGroups component used by Wildfly to support cluster node
-discovery and communication.
+You can also  set to `any` to allow Wildfly to bind using address 0.0.0.0. **Note that
+this is not supported when running Wildfly in high-availability mode** (`WILDFLY_HA`) 
+because of a limitation of the JGroups component used by Wildfly to support cluster node discovery and communication.
 
 If you want even more control over how network interfaces are bound by wildfly, 
 replace `${WILDFLY_HOME}/bin/run-wildfly` or install your own script and run it as the
@@ -93,9 +92,12 @@ You can configure Wildfly when the image starts up in a few different ways.
 
 ### Replacing Configuration Files
 
-You can place files in `/etc/summit` in an image based on this image. These 
-files will copied to `$WILDFLY_HOME/standalone/configuration` when the image
-is started up the first time. This is a good way to replace files such as
+You can place configuration files in `/etc/wildfly` in an image based on this 
+image. These files will copied to `$WILDFLY_HOME/standalone/configuration` 
+when the image is started up the first time. Note that only files are copied;
+not directories.
+
+This is a good way to replace files such as
 
 * `application-users.properties`
 * `application-roles.properties`

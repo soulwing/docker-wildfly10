@@ -1,0 +1,25 @@
+#!/usr/bin/with-contenv /bin/sh
+
+ME="[$(basename $0)]"
+CONFIG_LOCK=/var/run/wildfly-config.lock
+CONFIG_DIR=${WILDFLY_CONFIG_DIR:-/etc/wildfly/config.d}
+WILDFLY_RUNTIME_BASE_DIR=${WILDFLY_RUNTIME_BASE_DIR:-/var/run/wildfly}
+WILDFLY_USER=${WILDFLY_USER:-wildfly}
+
+CONFIG_FILES_DIR=$(dirname $CONFIG_DIR)
+
+if [ -f "$CONFIG_LOCK" ]; then
+  echo "$ME configuration has already been applied"
+  exit
+fi
+
+for f in $(find $CONFIG_FILES_DIR -type f)    
+do
+  b=$(basename $f)
+  g=${WILDFLY_RUNTIME_BASE_DIR}/configuration/$b    
+  echo "$ME copying $f to $g"
+  cp $f $g                                          
+  chown $WILDFLY_USER:$WILDFLY_USER $g      
+  chmod ug+r $g
+done
+
