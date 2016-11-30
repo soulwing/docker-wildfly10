@@ -13,7 +13,7 @@ if [ -f "$CONFIG_LOCK" ]; then
   exit
 fi
 
-for f in $(find $CONFIG_FILES_DIR -type f)    
+for f in $(find $CONFIG_FILES_DIR -maxdepth 1 -type f)    
 do
   b=$(basename $f)
   g=${WILDFLY_RUNTIME_BASE_DIR}/configuration/$b    
