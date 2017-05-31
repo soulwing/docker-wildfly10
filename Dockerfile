@@ -1,4 +1,4 @@
-FROM frolvlad/alpine-oraclejdk8:cleaned
+FROM openjdk:8-jre-alpine
 
 ARG CONFIG_DIR=/etc/wildfly/config.d/
 ARG WILDFLY_VERSION=10.1.0.Final
