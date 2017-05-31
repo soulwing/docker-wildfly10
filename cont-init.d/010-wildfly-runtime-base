@@ -9,6 +9,3 @@ fi
 mkdir ${WILDFLY_RUNTIME_BASE_DIR}
 tar -C ${INSTALLED_BASE_DIR} -cf - . | tar -C ${WILDFLY_RUNTIME_BASE_DIR} -xf -
 chown -R ${WILDFLY_USER}:${WILDFLY_USER} ${WILDFLY_RUNTIME_BASE_DIR}
-if [ -d "/apps/artifacts" ]; then
-  chmod -R go+r /apps/artifacts
-fi
