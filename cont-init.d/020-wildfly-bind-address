@@ -2,15 +2,25 @@
 
 intf=${WILDFLY_BIND_INTERFACE:-eth0}
 
-if [ "$intf" != "any" ]; then
-  addr=$(ip address scope global dev ${intf} \
+if [ "$intf" == "any" ]; then
+  addr=0.0.0.0
+elif ip link list dev "$intf" >/dev/null 2>&1; then
+  echo "it's an interface"
+  addr=$(ip address list scope global dev ${intf} \
             | grep "inet" \
             | awk '{print $2}' \
             | cut -f1 -d'/')
 else
+  addr=$(ip route list $intf | awk '{print $NF}')
+fi
+
+if [ -z "$addr" ]; then
+  echo "WARNING: cannot determine interface address for '$intf'" >&2
+  echo "WARNING: binding to all interfaces as a fallback" >&2
   addr=0.0.0.0
 fi
 
+echo "interface address is $addr"
 echo $addr > ${WILDFLY_BIND_ADDRESS}
 chown ${WILDFLY_USER}:${WILDFLY_USER} ${WILDFLY_BIND_ADDRESS}
 echo "bind address is $(cat ${WILDFLY_BIND_ADDRESS})"

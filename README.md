@@ -75,9 +75,12 @@ The default value is `eth0` (the container's virtual ethernet interface) which i
 usually what you want if you're using the _bridge_ network mode. If your Docker network
 set up is more elaborate, you may want to specify a different interface.  
 
-You can also  set to `any` to allow Wildfly to bind using address 0.0.0.0. **Note that
-this is not supported when running Wildfly in high-availability mode** (`WILDFLY_HA`) 
-because of a limitation of the JGroups component used by Wildfly to support cluster node discovery and communication.
+* You can specify the interface name to which to bind; e.g. `eth1`. 
+* You can also specify a network prefix assigned to a docker network; e.g. `172.19.0.0/16`
+* You can also specify `any` to allow Wildfly to bind using address 0.0.0.0. **Note that
+  this is not supported when running Wildfly in high-availability mode** (`WILDFLY_HA`) 
+  because of a limitation of the JGroups component used by Wildfly to support cluster node 
+  discovery and communication.
 
 If you want even more control over how network interfaces are bound by wildfly, 
 replace `${WILDFLY_HOME}/bin/run-wildfly` or install your own script and run it as the
