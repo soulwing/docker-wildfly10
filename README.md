@@ -88,7 +88,7 @@ If you want even more control over how network interfaces are bound by wildfly,
 replace `${WILDFLY_HOME}/bin/run-wildfly` or install your own script and run 
 it as the CMD in an image that extends this image.
 
-### WILDFLY_MGMT_BIND_INTERFACE
+### `WILDFLY_MGMT_BIND_INTERFACE`
 
 Identifies the container interface to which Wildfly's management interface
 will be bound. Allows the interface name or address to be specified in the
