@@ -14,6 +14,7 @@ ENV WILDFLY_USER=wildfly \
     WILDFLY_HA=false
 
 ENV WILDFLY_BIND_ADDRESS=${WILDFLY_RUNTIME_BASE_DIR}/configuration/bind_address
+ENV WILDFLY_MGMT_BIND_ADDRESS=${WILDFLY_RUNTIME_BASE_DIR}/configuration/mgmt_bind_address
 
 RUN \
   apk add --no-cache --virtual build-dependencies wget ca-certificates && \
@@ -27,6 +28,8 @@ RUN \
   ln -s ${APPS_BASE}/wildfly-${WILDFLY_VERSION} ${WILDFLY_HOME} && \
   rm /tmp/s6-overlay.tar.gz && \
   rm /tmp/wildfly.zip && \
+  echo "hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4" \
+      > /etc/nsswitch.conf && \
   adduser -H -h "${WILDFLY_HOME}" -g "Wildfly User" \
       -s /bin/sh -D ${WILDFLY_USER}
 
