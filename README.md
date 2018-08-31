@@ -61,8 +61,9 @@ that contains the Wildfly directories `configuration`, `data`, `deployments`,
 ### `WILDFLY_HA`
 
 When set to `true`, Wildfly is run using the `standalone-ha.xml` configuration
-as the base which is subsequently configured.
-
+as the base which is subsequently configured. See [HA-Specific Configuration](#ha-specific-configuration)
+below for tips on how to specify HA configuration that can be easily omitted
+when not running in HA mode.
 
 ### `WILDFLY_BIND_INTERFACE`
 
@@ -162,6 +163,15 @@ While you can place all configuration in a single snippet, it isn't
 recommended. Smaller snippets are more manageable, promote reuse, and allow 
 you to build up complex configurations by layering on configuration snippets 
 using Docker.
+
+#### HA-Specific Configuration
+
+When running Wildfly in clustered (HA) mode, you may want/need to apply some
+additional configuration that shouldn't (or can't) be applied outside of 
+HA mode. You can create configuration snippets that are HA-specific by adding
+a `.ha` suffix to the end of the name. When running with `WILDFLY_HA=true`, 
+these configuration snippets will be applied. Otherwise, these configuration
+snippets will be omitted.
 
 ### Using `cont-init.d` Scripts
 
